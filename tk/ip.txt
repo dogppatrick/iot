@@ -1,0 +1,4 @@
+    inet 127.0.0.1/8 scope host lo
+    inet 192.168.100.154/24 brd 192.168.100.255 scope global eth0
+    inet 172.17.0.1/16 scope global docker0
+Linux raspberrypi 4.4.34-v7+ #930 SMP Wed Nov 23 15:20:41 GMT 2016 armv7l GNU/Linux
