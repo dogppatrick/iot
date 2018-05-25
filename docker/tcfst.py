@@ -1,0 +1,47 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu May 17 16:27:21 2018
+
+@author: Orozco Hsu
+
+This is a demo cralwering to S3 crawler-20180517
+"""
+
+from boto3.s3.transfer import S3Transfer
+import boto3
+
+AWS_ACCESS_KEY_ID = 'AKIAIL4R7JYZ3JJTSTFQ'
+AWS_SECRET_ACCESS_KEY = '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'
+
+import requests
+from bs4 import BeautifulSoup
+
+def get_head_text(url, head_tag):
+    try:
+        resp = requests.get(url)
+        if resp.status_code == 200:
+            soup = BeautifulSoup(resp.text, 'html.parser')
+            return soup.find(head_tag).text
+    except Exception as e:
+        return None
+
+import json
+url = 'http://blog.castman.net/web-crawler-tutorial/ch1/connect.html'
+title = get_head_text(url, 'h1')
+print(json.dumps(title))
+print(json.dumps(title,ensure_ascii=False))
+
+j = {'title': title, 'url': url}
+
+with open("output.json","w") as output:
+    output.write(json.dumps(j,ensure_ascii=False))
+
+
+client = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID,aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+transfer = S3Transfer(client)
+filepath="output.json"
+bucket_name="crawler-20180517"
+filename="output.json"
+transfer.upload_file(filepath, bucket_name, filename)
+
+
