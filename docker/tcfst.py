@@ -40,7 +40,7 @@ client = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID,aws_secret_acces
 transfer = S3Transfer(client)
 filepath="output.json"
 bucket_name="crawler-20180517"
-filename="output.json"
+filename="output1.json"
 transfer.upload_file(filepath, bucket_name, filename)
 
 
