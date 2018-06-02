@@ -2,15 +2,18 @@
 
 DATE=$(date +"%Y-%m-%d %H:%M:%S")
 
-id=chair1
-y=$(docker run --rm --cap-add SYS_RAWIO --device /dev/mem hypriot/rpi-gpio read 1)
+sensorid=Orozco
+status=$(docker run --rm --cap-add SYS_RAWIO --device /dev/mem hypriot/rpi-gpio read 1)
+message=""
 
-if [ "$y" = 1 ]
+if [ "$status" = 1 ]
 then
-     status="button pressed"
+     message="button-pressed"
 else
-     status="button opened"
+     message="button-opened"
 fi
 
-echo $id,$DATE,$status >> /home/pi/button.log
+echo $sensorid,$DATE,$message >> /home/pi/iot/button.log
 
+
+curl -X PUT "http://172.104.90.53:6002/iot/$sensorid/$status/$message"

@@ -32,15 +32,15 @@ title = get_head_text(url, 'h1')
 j = {'title': title, 'url': url}
 s=json.dumps(j,ensure_ascii=False,encoding='utf8')
 
-with io.open('output.json','w',encoding='utf8') as file:
+with io.open('output1234.json','w',encoding='utf8') as file:
     file.write(s)
 
 
 client = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID,aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
 transfer = S3Transfer(client)
-filepath="output.json"
+filepath="output1234.json"
 bucket_name="crawler-20180517"
-filename="output1.json"
+filename="output1234.json"
 transfer.upload_file(filepath, bucket_name, filename)
 
 
