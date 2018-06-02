@@ -1,17 +1,23 @@
-from sense_emu import SenseHat
-from time import time
-from time import sleep
+#!/usr/bin/python
+
+from sense_hat import SenseHat
 
 sense = SenseHat()
 
-temp = round(sense.get_temperature()*1.8 +32)
+import RPi.GPIO as GPIO
+GPIO.setwarnings(False)
 
-humidity = round(sense.get_humidity())
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(33,GPIO.OUT)
 
-pressure = round(sense.get_pressure())
-
-message = 'Temperature is %d F Humidity is %d percent Pressure is %d mbars' %(temp,humidity,pressure)
-
-sense.show_message(message, scroll_speed=(0.08),text_colour=[200,0,200], back_colour= [0,0,200])
-
-sense.clear()
+while True:
+    t=sense.get_temperature()
+    t=round(t,1)
+    if t>26 and t<29.0:
+        GPIO.output(33,False)
+        bg=[45,76,164]
+    else:
+        GPIO.output(33,True)
+        bg=[100,0,0]
+    msg="Temperature=%s" % (t)
+    sense.show_message(msg,scroll_speed=0.05,back_colour=bg)
