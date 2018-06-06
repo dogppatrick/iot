@@ -277,6 +277,7 @@ def setLight():
         GPIO.output(26,GPIO.LOW)
 
         tex.insert(END,"燈泡測試正常\n")
+        tex.insert(END,"5V LED =>BCM 26; 110V LED => BCM 21)\n")
     except:
         tex.insert(END,"錯誤: 連接設備有誤\n")
 
